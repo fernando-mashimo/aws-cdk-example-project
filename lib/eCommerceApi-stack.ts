@@ -33,9 +33,8 @@ export class ECommerceApiStack extends cdk.Stack { // classe que define o API Ga
       },
 		});
 
-    const productsFecthIntegration = new apiGateway.LambdaIntegration(props.productsFetchHandler); // cria uma integração com a função productsFetchHandler
-    // "GET /products"
+    const productsFetchIntegration = new apiGateway.LambdaIntegration(props.productsFetchHandler); // cria uma integração com a função productsFetchHandler
     const productsResource = api.root.addResource("products"); // adiciona um recurso chamado "products" ao recurso raiz da API
-    productsResource.addMethod("GET", productsFecthIntegration); // adiciona um método GET ao recurso "products" e integra com a função productsFetchHandler
+    productsResource.addMethod("GET", productsFetchIntegration); // adiciona um método GET ao recurso "products" e integra com a função productsFetchHandler
 	}
 }
