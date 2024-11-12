@@ -16,7 +16,7 @@ export class ECommerceApiStack extends cdk.Stack { // classe que define o API Ga
 		const api = new apiGateway.RestApi(this, "ECommerceApi", { // cria um novo recurso de API Gateway, do tipo RestApi
 			restApiName: "ECommerceApi",
 			description: "API Gateway for E-Commerce App",
-      // cloudWatchRole: true,
+      cloudWatchRole: true,
       deployOptions: {
         accessLogDestination: new apiGateway.LogGroupLogDestination(logGroup),
         accessLogFormat: apiGateway.AccessLogFormat.jsonWithStandardFields({
