@@ -6,6 +6,7 @@ import * as lambdaNodejs from "aws-cdk-lib/aws-lambda-nodejs";
 
 interface ECommerceApiStackProps extends cdk.StackProps {
   productsFetchHandler: lambdaNodejs.NodejsFunction;
+  productsAdminHandler: lambdaNodejs.NodejsFunction;
 }
 
 export class ECommerceApiStack extends cdk.Stack { // classe que define o API Gateway
@@ -34,7 +35,26 @@ export class ECommerceApiStack extends cdk.Stack { // classe que define o API Ga
 		});
 
     const productsFetchIntegration = new apiGateway.LambdaIntegration(props.productsFetchHandler); // cria uma integração com a função productsFetchHandler
+    
+    // "/products"
     const productsResource = api.root.addResource("products"); // adiciona um recurso chamado "products" ao recurso raiz da API
+    
+    // GET /products
     productsResource.addMethod("GET", productsFetchIntegration); // adiciona um método GET ao recurso "products" e integra com a função productsFetchHandler
+    
+    // "/products/{id}"
+    const productIdResource = productsResource.addResource("{id}");
+
+    // GET /products/{id}
+    productIdResource.addMethod("GET", productsFetchIntegration);
+
+    const productsAdminIntegration = new apiGateway.LambdaIntegration(props.productsAdminHandler);
+
+    // POST /products
+    productsResource.addMethod("POST", productsAdminIntegration);
+    // PUT /products/{id}
+    productIdResource.addMethod("PUT", productsAdminIntegration);
+    // DELETE /products/{id}
+    productIdResource.addMethod("DELETE", productsAdminIntegration);
 	}
 }
